@@ -1,9 +1,9 @@
 - hosts: all
   tasks:
-  - name: run dummy selenium job
-    shell: "docker run --rm -v {{ workspace }}:{{ workspace }} -w {{ workspace }} callahanclarus/selenium-py-chrome:latest python {{ item }}"
-    with_fileglob: "{{ workspace }}/selenium-jobs/dummy*.py"
+  - name: run all selenium jobs
+    shell: "docker run --rm --env MASTER_PUBLIC_IP={{ master_public_ip }} -v {{ workspace }}:{{ workspace }} -w {{ workspace }} callahanclarus/selenium-py-chrome:latest python {{ item }}"
     register: output
+    with_fileglob: "{{ workspace }}/selenium-jobs/test*.py"
   
   - name: show results
     debug: msg="{{ item.stdout }}"
